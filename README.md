@@ -18,7 +18,7 @@ A complete home inventory management system with QR codes, password protection, 
 
 ## 🚀 Quick Start
 
-1. Visit the live demo: [https://yourusername.github.io/home-tracker-pro/](https://yourusername.github.io/home-tracker-pro/)
+1. Visit the live demo: [https://onlyme011.github.io/hometrackerpro/](https://yourusername.github.io/home-tracker-pro/)
 2. Create an account or login to existing one
 3. Start adding your houses, rooms, and items
 4. Generate QR codes for important items to quickly locate them
@@ -46,5 +46,6 @@ Contributions are welcome! Please open an issue or submit a pull request.
 ---
 
 **Home Tracker Pro** • v8.0 • Made with ❤️
+
 
 Made by Onlyme011
