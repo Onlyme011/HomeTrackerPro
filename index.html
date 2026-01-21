@@ -1,0 +1,3144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🏠 Home Tracker Pro</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --border-normal: #e2e8f0;
+            --border-selected: #6366f1;
+            --input-bg: #f8fafc;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            --radius-xs: 4px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-full: 9999px;
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-7: 28px;
+            --space-8: 32px;
+            --house-color: #6366f1;
+            --house-roof: #4338ca;
+        }
+
+        body.dark-mode {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --border-normal: #334155;
+            --border-selected: #818cf8;
+            --input-bg: #0f172a;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.15);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+            --house-roof: #3730a3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            transition: var(--transition);
+            padding-bottom: 80px;
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 var(--space-3);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(8px); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateX(-5deg) rotateY(10deg); }
+            50% { transform: translateY(-4px) rotateX(-5deg) rotateY(10deg); }
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            70% { box-shadow: 0 0 0 8px rgba(99, 102, 241, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+        }
+        
+        @keyframes unlock {
+            0% { transform: scale(1) rotate(0); opacity: 1; }
+            50% { transform: scale(1.2) rotate(30deg); opacity: 0.9; }
+            100% { transform: scale(1) rotate(360deg); opacity: 0; }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        
+        .animate-in {
+            animation: fadeIn 0.3s ease forwards;
+        }
+        
+        .animate-out {
+            animation: fadeOut 0.2s ease forwards;
+        }
+        
+        .animate-unlock {
+            animation: unlock 0.8s ease forwards;
+        }
+        
+        /* House Model */
+        .house-container {
+            width: 120px;
+            height: 100px;
+            position: relative;
+            margin: 24px auto;
+            perspective: 1000px;
+            animation: float 3s infinite ease-in-out;
+            transform: rotateX(-5deg) rotateY(10deg);
+            transform-style: preserve-3d;
+        }
+        
+        .h-roof-container {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            width: 100%;
+            height: 45px;
+            transform-style: preserve-3d;
+        }
+        
+        .h-front {
+            position: absolute;
+            bottom: 0;
+            width: 60px;
+            height: 55px;
+            background: var(--house-color);
+            border: 1.5px solid var(--border-normal);
+            border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+        }
+        
+        .h-side {
+            position: absolute;
+            bottom: 0;
+            left: 60px;
+            width: 40px;
+            height: 55px;
+            background: var(--primary-dark);
+            border: 1.5px solid var(--border-normal);
+            transform-origin: left;
+            transform: rotateY(-90deg);
+            border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+        }
+        
+        .h-roof-front {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 30px solid transparent;
+            border-right: 30px solid transparent;
+            border-bottom: 35px solid var(--house-roof);
+        }
+        
+        .h-roof-side {
+            position: absolute;
+            bottom: 0;
+            left: 30px;
+            width: 50px;
+            height: 49px;
+            background: var(--house-roof);
+            border: 1.5px solid var(--border-normal);
+            transform: rotateX(45deg) rotateY(-30deg) skewX(-15deg);
+            border-radius: var(--radius-xs) var(--radius-xs) 0 0;
+        }
+        
+        .h-door {
+            position: absolute;
+            bottom: 5px;
+            left: 22px;
+            width: 16px;
+            height: 24px;
+            background: #4338ca;
+            border: 1.5px solid var(--border-normal);
+            border-radius: 0 0 var(--radius-xs) var(--radius-xs);
+        }
+        
+        .h-window {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 10px;
+            height: 10px;
+            background: rgba(168, 200, 255, 0.4);
+            border: 1.5px solid var(--border-normal);
+            border-radius: var(--radius-xs);
+        }
+        
+        .h-chimney {
+            position: absolute;
+            top: -12px;
+            left: 12px;
+            width: 6px;
+            height: 15px;
+            background: var(--house-roof);
+            border: 1.5px solid var(--border-normal);
+            transform: rotateX(45deg) rotateY(-30deg) skewX(-15deg);
+        }
+        
+        .h-smoke {
+            position: absolute;
+            top: -22px;
+            left: 12px;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: floatSmoke 3s infinite ease-in-out;
+        }
+        
+        @keyframes floatSmoke {
+            0%, 100% { transform: translateY(0); opacity: 0.7; }
+            50% { transform: translateY(-6px); opacity: 0.3; }
+        }
+        
+        /* Auth Styles */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 95vh;
+            padding: var(--space-4);
+            position: relative;
+        }
+        
+        .login-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin: var(--space-2) 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .login-subtitle {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-sub);
+            margin-bottom: var(--space-6);
+            opacity: 0.85;
+        }
+        
+        .version-label {
+            position: absolute;
+            bottom: var(--space-6);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-sub);
+            opacity: 0.7;
+        }
+        
+        .app-description {
+            max-width: 420px;
+            margin: var(--space-4) 0 var(--space-6);
+            color: var(--text-sub);
+            line-height: 1.6;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        
+        /* Grid & Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+            padding: var(--space-3) 0 var(--space-8);
+        }
+        
+        body.compact-mode .grid {
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-3);
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            text-align: center;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid var(--border-normal);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 160px;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-selected);
+        }
+        
+        .card.locked::before {
+            content: "🔒";
+            position: absolute;
+            top: var(--space-2);
+            right: var(--space-2);
+            font-size: 0.9rem;
+            z-index: 2;
+            background: var(--card-bg);
+            border-radius: var(--radius-full);
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-normal);
+        }
+        
+        .card-icon {
+            font-size: 2.2rem;
+            margin: var(--space-2) 0;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+        
+        .card-img {
+            width: 100%;
+            height: 65px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            margin: var(--space-2) 0;
+            border: 1px solid var(--border-normal);
+        }
+        
+        .card-title {
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin: var(--space-1) 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+        
+        .card-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            margin-top: var(--space-1);
+        }
+        
+        .card-badge {
+            position: absolute;
+            bottom: var(--space-3);
+            right: var(--space-3);
+            font-size: 0.75rem;
+            background: var(--primary);
+            color: white;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-full);
+            font-weight: 500;
+        }
+        
+        .card-price {
+            font-weight: 700;
+            color: var(--success);
+            font-size: 0.95rem;
+            margin-top: var(--space-1);
+        }
+        
+        .card-meta {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-3);
+            margin-top: var(--space-1);
+            font-size: 0.8rem;
+            color: var(--text-sub);
+        }
+        
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: var(--space-2);
+            padding: 0 var(--space-2) var(--space-4);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        
+        .filter-bar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .filter-btn {
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-normal);
+            background: var(--card-bg);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        
+        .filter-btn:hover {
+            background: var(--input-bg);
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        /* Header & Navigation */
+        header {
+            padding: var(--space-3) var(--space-2) var(--space-2);
+            position: sticky;
+            top: 0;
+            background: var(--bg-color);
+            z-index: 100;
+            border-bottom: 1px solid var(--border-normal);
+        }
+        
+        .header-container {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+        
+        .back-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-normal);
+            border-radius: var(--radius-md);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .back-btn:hover {
+            background: var(--input-bg);
+            transform: translateX(-3px);
+        }
+        
+        .page-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .search-container {
+            position: relative;
+            margin-top: var(--space-3);
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: var(--space-2) var(--space-5) var(--space-2) var(--space-5);
+            border-radius: var(--radius-full);
+            background: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-normal);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .search-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: var(--space-3);
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-sub);
+            font-size: 1rem;
+        }
+        
+        .voice-btn {
+            position: absolute;
+            right: var(--space-3);
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .voice-btn:hover {
+            transform: translateY(-50%) scale(1.15);
+        }
+        
+        .voice-btn.listening {
+            color: var(--secondary);
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease;
+        }
+        
+        .modal {
+            background: var(--card-bg);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            width: 92%;
+            max-width: 420px;
+            border: 1px solid var(--border-normal);
+            box-shadow: var(--shadow-xl);
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            animation: modalSlideUp 0.4s ease forwards;
+        }
+        
+        @keyframes modalSlideUp {
+            to { transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-3);
+            border-bottom: 1px solid var(--border-normal);
+        }
+        
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-sub);
+            cursor: pointer;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-full);
+            transition: var(--transition);
+        }
+        
+        .modal-close:hover {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+        }
+        
+        .password-modal {
+            text-align: center;
+        }
+        
+        .unlock-animation {
+            font-size: 5rem;
+            margin: var(--space-4) 0;
+            color: var(--success);
+            animation: unlock 0.8s ease forwards;
+        }
+        
+        /* Input Fields */
+        .input-group {
+            margin-bottom: var(--space-4);
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: var(--space-1);
+            font-weight: 500;
+            color: var(--text-sub);
+            font-size: 0.9rem;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-md);
+            background: var(--input-bg);
+            color: var(--text-main);
+            border: 1px solid var(--border-normal);
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .input-field:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        
+        .file-input-container {
+            border: 1.5px dashed var(--border-normal);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: var(--space-4);
+        }
+        
+        .file-input-container:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+        }
+        
+        .file-input-container i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: var(--space-2);
+        }
+        
+        .file-input-container p {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: var(--space-3);
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 1rem;
+            cursor: pointer;
+            padding: var(--space-1);
+        }
+        
+        .toggle-password:hover {
+            color: var(--primary);
+        }
+        
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: var(--space-3);
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid var(--border-normal);
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background: var(--input-bg);
+            color: var(--text-main);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+        
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-3);
+            margin-top: var(--space-3);
+        }
+        
+        /* Navigation Bar */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-normal);
+            display: flex;
+            justify-content: space-around;
+            padding: var(--space-1) 0;
+            z-index: 200;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: var(--space-1) var(--space-2);
+            transition: var(--transition);
+            gap: var(--space-1);
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+            transform: translateY(-1px);
+        }
+        
+        .nav-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        /* Quick Add Bar */
+        .quick-add {
+            position: fixed;
+            bottom: 76px;
+            left: var(--space-4);
+            right: var(--space-4);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-full);
+            background: var(--card-bg);
+            border: 1px solid var(--border-normal);
+            box-shadow: var(--shadow-md);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            z-index: 150;
+            transition: var(--transition);
+            transform: translateY(100px);
+            opacity: 0;
+        }
+        
+        .quick-add.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .quick-add-input {
+            flex: 1;
+            border: none;
+            background: none;
+            outline: none;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            padding: var(--space-1) 0;
+        }
+        
+        .quick-add-btn {
+            background: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(99, 102, 241, 0.3);
+        }
+        
+        .quick-add-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+        
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 24px;
+            right: var(--space-4);
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-full);
+            background: var(--primary);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+            font-size: 1.7rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            transition: var(--transition);
+        }
+        
+        .fab:hover {
+            transform: scale(1.08) rotate(5deg);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.5);
+        }
+        
+        .fab:active {
+            transform: scale(0.95) rotate(5deg);
+        }
+        
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 72px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--text-main);
+            color: white;
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: 0.9rem;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 3000;
+            transition: var(--transition);
+            max-width: 85%;
+            text-align: center;
+            opacity: 0;
+        }
+        
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        
+        .toast.hide {
+            transform: translateX(-50%) translateY(100px);
+            opacity: 0;
+        }
+        
+        .toast.success {
+            background: var(--success);
+        }
+        
+        .toast.warning {
+            background: var(--warning);
+        }
+        
+        .toast.error {
+            background: var(--danger);
+        }
+        
+        /* Skeleton Loaders */
+        .skeleton {
+            background: linear-gradient(90deg, var(--input-bg) 25%, #e0e0e0 50%, var(--input-bg) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-md);
+        }
+        
+        .skeleton-card {
+            height: 160px;
+            margin-bottom: var(--space-3);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        
+        /* Empty States */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-8) var(--space-3);
+            color: var(--text-sub);
+        }
+        
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-4);
+            color: var(--primary);
+            opacity: 0.7;
+        }
+        
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            color: var(--text-main);
+        }
+        
+        .empty-description {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: var(--space-5);
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            text-align: center;
+            border: 1px solid var(--border-normal);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-selected);
+        }
+        
+        .stat-icon {
+            font-size: 2.2rem;
+            margin-bottom: var(--space-3);
+            color: var(--primary);
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: var(--space-1);
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+        
+        /* Tags */
+        .tag-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-1);
+            margin-top: var(--space-2);
+            justify-content: center;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: var(--input-bg);
+            color: var(--text-main);
+        }
+        
+        .tag.fragile {
+            background: rgba(245, 158, 11, 0.15);
+            color: #d97706;
+        }
+        
+        .tag.valuable {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+        }
+        
+        .tag.tools {
+            background: rgba(37, 99, 235, 0.15);
+            color: #2563eb;
+        }
+        
+        .tag.electronics {
+            background: rgba(124, 58, 237, 0.15);
+            color: #7c3aed;
+        }
+        
+        /* Settings */
+        .settings-section {
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-5);
+            border-bottom: 1px solid var(--border-normal);
+        }
+        
+        .settings-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .settings-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: var(--space-4);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+        
+        .settings-item {
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            padding: var(--space-4);
+            margin-bottom: var(--space-3);
+            border: 1px solid var(--border-normal);
+            transition: var(--transition);
+        }
+        
+        .settings-item:hover {
+            border-color: var(--primary);
+        }
+        
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-1);
+        }
+        
+        .settings-label {
+            font-weight: 500;
+        }
+        
+        .settings-description {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-top: var(--space-1);
+        }
+        
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 26px;
+        }
+        
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-normal);
+            transition: var(--transition);
+            border-radius: var(--radius-full);
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: var(--transition);
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+        
+        /* Drag Handle */
+        .drag-handle {
+            position: absolute;
+            top: var(--space-2);
+            left: var(--space-2);
+            cursor: grab;
+            color: var(--text-sub);
+            font-size: 1rem;
+            z-index: 10;
+        }
+        
+        .card.dragging {
+            opacity: 0.8;
+            transform: scale(1.05);
+            z-index: 100;
+        }
+        
+        /* QR Code */
+        .qr-container {
+            text-align: center;
+            padding: var(--space-3);
+        }
+        
+        .qr-canvas {
+            display: inline-block;
+            background: white;
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            margin: var(--space-4) auto;
+            box-shadow: var(--shadow-lg);
+            max-width: 250px;
+        }
+        
+        .qr-actions {
+            display: flex;
+            gap: var(--space-3);
+            justify-content: center;
+            margin-top: var(--space-4);
+        }
+        
+        /* Responsive */
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 var(--space-4);
+            }
+            
+            .modal {
+                max-width: 500px;
+                padding: var(--space-6);
+            }
+            
+            .grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: var(--space-4);
+            }
+            
+            body.compact-mode .grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        /* Scrollbar customization */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--input-bg);
+            border-radius: var(--radius-full);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: var(--radius-full);
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Sync status indicator */
+        .sync-status {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-top: var(--space-2);
+        }
+        
+        .sync-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: var(--radius-full);
+            background: var(--success);
+        }
+        
+        .sync-indicator.syncing {
+            background: var(--warning);
+            animation: pulse 2s infinite;
+        }
+        
+        .sync-indicator.error {
+            background: var(--danger);
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="container"></div>
+    <div id="toast" class="toast"></div>
+    <div id="unlock-animation" class="modal-overlay" style="display:none; align-items:center; justify-content:center;">
+        <div style="font-size:8rem; color:var(--success); text-shadow: 0 0 15px rgba(16, 185, 129, 0.5);">
+            🔓
+        </div>
+    </div>
+    
+    <script>
+        // State Management
+        let state = {
+            user: null,
+            view: 'home',
+            authMode: 'login',
+            path: [],
+            houses: [],
+            searchQuery: '',
+            globalSearchQuery: '',
+            searchFilter: 'all',
+            darkMode: false,
+            compactMode: false,
+            tempPhoto: null,
+            draggedItem: null,
+            version: 'v3.5',
+            stayLoggedIn: false,
+            lastModifiedVisible: true,
+            categoryTagsVisible: true,
+            priceVisible: true,
+            hapticsEnabled: true,
+            autoSort: 'none', // 'none', 'alpha', 'recentUsed', 'recentCreated'
+            searchHistory: [],
+            quickAddActive: true,
+            customHouseColor: '#6366f1',
+            customHouseRoofColor: '#4338ca',
+            cloudSyncEnabled: false,
+            cloudSyncStatus: 'offline',
+            lastSync: null,
+            voiceCommandsEnabled: true,
+            theme: 'system'
+        };
+
+        // DOM Elements
+        const appElement = document.getElementById('app');
+        const toastElement = document.getElementById('toast');
+        const unlockAnimationElement = document.getElementById('unlock-animation');
+
+        // User Registration Functions
+        const getRegistry = () => JSON.parse(localStorage.getItem('ht_registry_v3') || '{}');
+        const saveRegistry = (registry) => localStorage.setItem('ht_registry_v3', JSON.stringify(registry));
+        
+        // Data Management Functions
+        function saveData() {
+            if (!state.user) return;
+            
+            const data = {
+                houses: state.houses,
+                darkMode: state.darkMode,
+                compactMode: state.compactMode,
+                lastModifiedVisible: state.lastModifiedVisible,
+                categoryTagsVisible: state.categoryTagsVisible,
+                priceVisible: state.priceVisible,
+                hapticsEnabled: state.hapticsEnabled,
+                autoSort: state.autoSort,
+                searchHistory: state.searchHistory,
+                customHouseColor: state.customHouseColor,
+                customHouseRoofColor: state.customHouseRoofColor,
+                cloudSyncEnabled: state.cloudSyncEnabled,
+                cloudSyncStatus: state.cloudSyncStatus,
+                lastSync: state.lastSync
+            };
+            
+            localStorage.setItem(`ht_data_v3_${state.user}`, JSON.stringify(data));
+            
+            // Handle auto-login
+            if (state.stayLoggedIn) {
+                localStorage.setItem('ht_active_user_v3', state.user);
+                localStorage.setItem('ht_login_expiry_v3', Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
+            } else {
+                localStorage.removeItem('ht_active_user_v3');
+                localStorage.removeItem('ht_login_expiry_v3');
+            }
+        }
+        
+        function loadData() {
+            if (!state.user) return;
+            
+            const data = JSON.parse(localStorage.getItem(`ht_data_v3_${state.user}`) || '{}');
+            state.houses = data.houses || [];
+            state.darkMode = data.darkMode || false;
+            state.compactMode = data.compactMode || false;
+            state.lastModifiedVisible = data.lastModifiedVisible !== false;
+            state.categoryTagsVisible = data.categoryTagsVisible !== false;
+            state.priceVisible = data.priceVisible !== false;
+            state.hapticsEnabled = data.hapticsEnabled !== false;
+            state.autoSort = data.autoSort || 'none';
+            state.searchHistory = data.searchHistory || [];
+            state.customHouseColor = data.customHouseColor || '#6366f1';
+            state.customHouseRoofColor = data.customHouseRoofColor || '#4338ca';
+            state.cloudSyncEnabled = data.cloudSyncEnabled || false;
+            state.cloudSyncStatus = data.cloudSyncStatus || 'offline';
+            state.lastSync = data.lastSync || null;
+            
+            // Apply theme
+            document.body.classList.toggle('dark-mode', state.darkMode);
+            
+            // Apply custom house colors
+            document.documentElement.style.setProperty('--house-color', state.customHouseColor);
+            document.documentElement.style.setProperty('--house-roof', state.customHouseRoofColor);
+            
+            // Setup cloud sync if enabled
+            if (state.cloudSyncEnabled) {
+                setupCloudSync();
+            }
+        }
+        
+        // Navigation Functions
+        function getList() {
+            let list = state.houses;
+            
+            state.path.forEach(step => {
+                const current = list.find(item => item.id === step.id);
+                if (!current) return [];
+                
+                switch(step.type) {
+                    case 'house':
+                        list = current.rooms || (current.rooms = []);
+                        break;
+                    case 'room':
+                        list = current.furniture || (current.furniture = []);
+                        break;
+                    case 'furniture':
+                        list = current.drawers || (current.drawers = []);
+                        break;
+                    case 'drawer':
+                        list = current.items || (current.items = []);
+                        break;
+                    case 'item':
+                        list = current.subItems || (current.subItems = []);
+                        break;
+                    default:
+                        list = [];
+                }
+            });
+            
+            return list;
+        }
+        
+        function getType(level) {
+            const types = ['house', 'room', 'furniture', 'drawer', 'item', 'subitem'];
+            return types[level] || 'unknown';
+        }
+        
+        function getIcon(level) {
+            const icons = ['🏠', '🚪', '🛏️', '🗄️', '📦', '🔹'];
+            return icons[level] || '❓';
+        }
+        
+        function navigateTo(id, name) {
+            const currentLevel = state.path.length;
+            const nextType = getType(currentLevel);
+            
+            // Items and sub-items open edit modal instead of navigating
+            if (currentLevel >= 4) {
+                openEdit(id);
+                return;
+            }
+            
+            state.path.push({ id, name, type: nextType });
+            render();
+        }
+        
+        // Toast Notification System
+        function showToast(message, type = 'info') {
+            toastElement.textContent = message;
+            toastElement.className = `toast ${type}`;
+            toastElement.classList.add('show');
+            
+            // Haptic feedback
+            if (state.hapticsEnabled && navigator.vibrate) {
+                if (type === 'success') navigator.vibrate(50);
+                else if (type === 'error') navigator.vibrate([100, 50, 100]);
+                else if (type === 'warning') navigator.vibrate(100);
+            }
+            
+            // Auto hide after duration
+            setTimeout(() => {
+                toastElement.classList.add('hide');
+                setTimeout(() => {
+                    toastElement.classList.remove('show', 'hide');
+                }, 300);
+            }, 2500);
+        }
+        
+        // Unlock Animation
+        function showUnlockAnimation() {
+            unlockAnimationElement.style.display = 'flex';
+            unlockAnimationElement.classList.add('animate-in');
+            
+            setTimeout(() => {
+                unlockAnimationElement.classList.add('animate-out');
+                setTimeout(() => {
+                    unlockAnimationElement.style.display = 'none';
+                    unlockAnimationElement.classList.remove('animate-in', 'animate-out');
+                }, 300);
+            }, 800);
+        }
+        
+        // Password Unlock System
+        function checkLock(id, name, lockCode) {
+            const item = findItemById(state.houses, id);
+            if (!item || !item.lock) {
+                navigateTo(id, name);
+                return;
+            }
+            
+            showPasswordModal(item, () => {
+                navigateTo(id, name);
+                showUnlockAnimation();
+                showToast("✅ Access granted!", "success");
+            });
+        }
+        
+        function showPasswordModal(item, onSuccess) {
+            const modalHTML = `
+                <div class="modal-overlay" id="password-modal">
+                    <div class="modal animate-in password-modal">
+                        <div class="modal-header">
+                            <h2 class="modal-title">🔒 Unlock: ${item.name}</h2>
+                            <button class="modal-close" onclick="document.getElementById('password-modal').remove()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <p style="margin-bottom: var(--space-4); color: var(--text-sub);">
+                            Enter the password to access this secured area.
+                        </p>
+                        
+                        <div class="input-group" style="position:relative;">
+                            <label class="input-label">Password</label>
+                            <input type="password" id="unlock-password" class="input-field" placeholder="Enter password" autofocus>
+                            <button class="toggle-password" type="button" onclick="togglePasswordVisibility('unlock-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="verifyPassword('${item.id}', ${onSuccess})">
+                            <i class="fas fa-unlock"></i> Unlock
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Add enter key support
+            document.getElementById('unlock-password').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    verifyPassword(item.id, onSuccess);
+                }
+            });
+        }
+        
+        function togglePasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                button.className = 'fas fa-eye';
+            }
+        }
+        
+        function verifyPassword(itemId, onSuccess) {
+            const password = document.getElementById('unlock-password').value;
+            const item = findItemById(state.houses, itemId);
+            
+            if (item && item.lock === password) {
+                // Update last accessed time
+                item.lastAccessed = Date.now();
+                saveData();
+                
+                // Close modal
+                const modal = document.getElementById('password-modal');
+                if (modal) modal.remove();
+                
+                // Execute callback
+                if (typeof onSuccess === 'function') {
+                    onSuccess();
+                } else if (typeof onSuccess === 'string') {
+                    eval(onSuccess);
+                }
+            } else {
+                showToast("❌ Incorrect password. Please try again.", "error");
+                document.getElementById('unlock-password').classList.add('error');
+            }
+        }
+        
+        function findItemById(items, id) {
+            for (const item of items) {
+                if (item.id === id) return item;
+                
+                // Check nested items
+                for (const key of ['rooms', 'furniture', 'drawers', 'items', 'subItems']) {
+                    if (item[key] && Array.isArray(item[key])) {
+                        const found = findItemById(item[key], id);
+                        if (found) return found;
+                    }
+                }
+            }
+            return null;
+        }
+        
+        // QR Code System
+        function generateQRForItem(itemId) {
+            const item = findItemById(state.houses, itemId);
+            if (!item) {
+                showToast("❌ Item not found", "error");
+                return;
+            }
+            
+            const path = [];
+            function findPath(items, targetId, currentPath = []) {
+                for (let i of items) {
+                    const type = getType(currentPath.length);
+                    const newPath = [...currentPath, {id: i.id, name: i.name, type: type}];
+                    
+                    if (i.id === targetId) {
+                        path.push(...newPath);
+                        return true;
+                    }
+                    
+                    for (let key of ['rooms', 'furniture', 'drawers', 'items', 'subItems']) {
+                        if (i[key] && i[key].length && findPath(i[key], targetId, newPath)) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+            
+            findPath(state.houses, itemId);
+            
+            if (path.length === 0) {
+                showToast("❌ Could not generate path for QR code", "error");
+                return;
+            }
+            
+            // Create QR code data - in production this would be more secure
+            const qrData = {
+                path: path,
+                itemId: itemId,
+                appName: "HomeTrackerPro",
+                version: state.version,
+                timestamp: Date.now()
+            };
+            
+            // Show QR code modal
+            showQRModal(item, qrData);
+        }
+        
+        function showQRModal(item, qrData) {
+            const qrHTML = `
+                <div class="modal-overlay" id="qr-modal">
+                    <div class="modal animate-in">
+                        <div class="modal-header">
+                            <h2 class="modal-title"><i class="fas fa-qrcode"></i> QR Code: ${item.name}</h2>
+                            <button class="modal-close" onclick="document.getElementById('qr-modal').remove()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="qr-container">
+                            <div class="qr-canvas" id="qr-canvas"></div>
+                            
+                            <p style="margin:var(--space-4) 0; color:var(--text-sub);">
+                                Scan this QR code to quickly navigate to "${item.name}" on any device.
+                            </p>
+                            
+                            <div class="qr-actions">
+                                <button class="btn btn-secondary" onclick="downloadQR()">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                                <button class="btn btn-primary" onclick="shareQR()">
+                                    <i class="fas fa-share-alt"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', qrHTML);
+            
+            // Generate QR code using the library
+            setTimeout(() => {
+                const canvas = document.getElementById('qr-canvas');
+                if (canvas) {
+                    QRCode.toCanvas(canvas, JSON.stringify(qrData), {
+                        width: 200,
+                        margin: 2,
+                        color: {
+                            dark: document.body.classList.contains('dark-mode') ? '#e2e8f0' : '#1e293b',
+                            light: '#ffffff'
+                        }
+                    }, function (error) {
+                        if (error) console.error(error);
+                    });
+                }
+            }, 100);
+        }
+        
+        function downloadQR() {
+            showToast("📱 QR code download functionality requires server deployment for full functionality", "info");
+            // In production, this would download the QR code image
+        }
+        
+        function shareQR() {
+            showToast("📱 QR code sharing requires server deployment for full functionality", "info");
+            // In production, this would share the QR code image
+        }
+        
+        // Rendering Functions
+        function render() {
+            if (!state.user) {
+                renderAuth(appElement);
+                return;
+            }
+            
+            appElement.innerHTML = `
+                <header>
+                    <div class="header-container">
+                        ${state.path.length ? `
+                            <button class="back-btn" onclick="goBack()">
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                        ` : `
+                            <div class="back-btn">
+                                <i class="fas fa-home"></i>
+                            </div>
+                        `}
+                        <h1 class="page-title">
+                            ${state.path.length ? state.path[state.path.length-1].name : '🏠 Home Tracker Pro'}
+                        </h1>
+                        ${state.path.length > 0 && state.path[state.path.length-1].type === 'item' ? `
+                            <button class="back-btn" onclick="toggleSubItemsView()">
+                                <i class="fas fa-layer-group"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+                    
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="main-search" class="search-input" 
+                               placeholder="🔍 Search items, rooms, houses..." 
+                               oninput="handleGlobalSearch(this.value)"
+                               value="${state.view === 'search' ? state.globalSearchQuery : state.searchQuery}">
+                        <button class="voice-btn" onclick="startVoiceSearch()" id="voice-btn">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </div>
+                    
+                    ${(state.view === 'search' || state.searchQuery) ? `
+                        <div class="filter-bar">
+                            <button class="filter-btn ${state.searchFilter === 'all' ? 'active' : ''}" 
+                                    onclick="setSearchFilter('all')">Everything</button>
+                            <button class="filter-btn ${state.searchFilter === 'items' ? 'active' : ''}" 
+                                    onclick="setSearchFilter('items')">📦 Items</button>
+                            <button class="filter-btn ${state.searchFilter === 'rooms' ? 'active' : ''}" 
+                                    onclick="setSearchFilter('rooms')">🏠 Locations</button>
+                            <button class="filter-btn ${state.searchFilter === 'tags' ? 'active' : ''}" 
+                                    onclick="setSearchFilter('tags')">🏷️ Tags</button>
+                        </div>
+                    ` : ''}
+                </header>
+                
+                <main id="main-content">
+                    ${state.view === 'home' ? renderHome() : ''}
+                    ${state.view === 'search' ? renderSearchResults() : ''}
+                    ${state.view === 'stats' ? renderStats() : ''}
+                    ${state.view === 'settings' ? renderSettings() : ''}
+                </main>
+                
+                ${state.path.length <= 4 ? `
+                    <button class="fab" onclick="openAdd()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                ` : ''}
+                
+                <div class="quick-add ${state.view === 'home' && state.quickAddActive ? 'active' : ''}">
+                    <i class="fas fa-plus-circle" style="color: var(--primary); font-size: 1.1rem;"></i>
+                    <input type="text" id="quick-input" class="quick-add-input" 
+                           placeholder="✨ Quick add item..." 
+                           onkeypress="handleQuickAddKeypress(event)">
+                    <button class="quick-add-btn" onclick="quickAdd()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                
+                <nav class="nav-bar">
+                    <button class="nav-item ${state.view === 'home' ? 'active' : ''}" onclick="setView('home')">
+                        <i class="fas fa-home"></i>
+                        <span class="nav-label">Home</span>
+                    </button>
+                    <button class="nav-item ${state.view === 'search' ? 'active' : ''}" onclick="setView('search')">
+                        <i class="fas fa-search"></i>
+                        <span class="nav-label">Search</span>
+                    </button>
+                    <button class="nav-item ${state.view === 'stats' ? 'active' : ''}" onclick="setView('stats')">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-label">Stats</span>
+                    </button>
+                    <button class="nav-item ${state.view === 'settings' ? 'active' : ''}" onclick="setView('settings')">
+                        <i class="fas fa-cog"></i>
+                        <span class="nav-label">Settings</span>
+                    </button>
+                </nav>
+            `;
+        }
+        
+        function renderAuth(app) {
+            app.innerHTML = `
+                <div class="auth-container animate-in">
+                    <div class="house-container">
+                        <div class="h-front">
+                            <div class="h-door"></div>
+                            <div class="h-window"></div>
+                        </div>
+                        <div class="h-side"></div>
+                        <div class="h-roof-container">
+                            <div class="h-roof-front"></div>
+                            <div class="h-roof-side"></div>
+                            <div class="h-chimney"></div>
+                            <div class="h-smoke"></div>
+                        </div>
+                    </div>
+                    
+                    <h1 class="login-title">Home Tracker Pro</h1>
+                    <div class="login-subtitle">v3.5 • Professional Home Inventory Management</div>
+                    
+                    <p class="app-description">
+                        Track, organize, and secure your entire home inventory with advanced features including QR codes, 
+                        password protection, cloud synchronization, and intuitive drag & drop organization.
+                    </p>
+                    
+                    <div class="modal animate-in">
+                        <div style="display:flex; gap:8px; margin-bottom:var(--space-4);">
+                            <button class="btn ${state.authMode === 'login' ? 'btn-primary' : 'btn-secondary'}" 
+                                    style="flex:1" onclick="state.authMode='login'; render()">
+                                👤 Login
+                            </button>
+                            <button class="btn ${state.authMode === 'register' ? 'btn-primary' : 'btn-secondary'}" 
+                                    style="flex:1" onclick="state.authMode='register'; render()">
+                                ✨ Register
+                            </button>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Username</label>
+                            <input type="text" id="u" class="input-field" placeholder="Enter your username">
+                        </div>
+                        
+                        <div class="input-group" style="position:relative;">
+                            <label class="input-label">Password</label>
+                            <input type="password" id="p" class="input-field" placeholder="Enter your password">
+                            <button class="toggle-password" type="button" onclick="togglePasswordPeek()">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        
+                        ${state.authMode === 'login' ? `
+                            <div class="input-group">
+                                <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:var(--text-sub);">
+                                    <input type="checkbox" id="stay-login" ${state.stayLoggedIn ? 'checked' : ''}>
+                                    🔒 Stay logged in for 30 days
+                                </label>
+                            </div>
+                        ` : ''}
+                        
+                        <button class="btn btn-primary" onclick="auth()">
+                            ${state.authMode === 'login' ? '🔓 Login to Account' : '✅ Create Account'}
+                        </button>
+                    </div>
+                    
+                    <div class="version-label">🏠 Home Tracker Pro • ${state.version}</div>
+                </div>
+            `;
+        }
+        
+        function renderHome() {
+            const items = getList();
+            const currentLevel = state.path.length;
+            
+            if (!items.length) {
+                const levelNames = ['houses', 'rooms', 'furniture pieces', 'drawers', 'items', 'sub-items'];
+                const levelName = levelNames[currentLevel] || 'items';
+                const addItemText = currentLevel === 0 ? 'house' : levelNames[currentLevel].split(' ')[0];
+                
+                return `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            ${getIcon(currentLevel)}
+                        </div>
+                        <h2 class="empty-title">No ${levelName} found</h2>
+                        <p class="empty-description">
+                            ${currentLevel === 0 ? 
+                                "✨ Start by adding your first house to organize your belongings!" : 
+                                `✨ Add your first ${addItemText} to this location.`
+                            }
+                        </p>
+                        <button class="btn btn-primary" onclick="openAdd()" style="max-width: 250px; margin: 0 auto;">
+                            <i class="fas fa-plus"></i> Add ${addItemText.charAt(0).toUpperCase() + addItemText.slice(1)}
+                        </button>
+                    </div>
+                `;
+            }
+            
+            // Apply sorting based on settings
+            let sortedItems = [...items];
+            
+            if (state.autoSort === 'alpha') {
+                sortedItems.sort((a, b) => a.name.localeCompare(b.name));
+            } else if (state.autoSort === 'recentUsed') {
+                sortedItems.sort((a, b) => (b.lastAccessed || 0) - (a.lastAccessed || 0));
+            } else if (state.autoSort === 'recentCreated') {
+                sortedItems.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+            }
+            
+            return `
+                <div class="grid">
+                    ${sortedItems.map(item => {
+                        const isLocked = !!item.lock;
+                        const itemLevel = currentLevel + 1;
+                        
+                        return `
+                            <div class="card ${isLocked ? 'locked' : ''}" 
+                                 data-id="${item.id}"
+                                 onclick="checkLock('${item.id}', '${item.name.replace(/'/g, "\\'")}', '${isLocked ? item.lock : ''}')">
+                                ${state.autoSort === 'none' ? `<div class="drag-handle">⋮⋮</div>` : ''}
+                                
+                                <div class="card-icon">
+                                    ${item.image ? `
+                                        <img src="${item.image}" class="card-img" alt="${item.name}">
+                                    ` : `
+                                        ${getIcon(itemLevel)}
+                                    `}
+                                </div>
+                                
+                                <div class="card-title">${item.name}</div>
+                                
+                                ${state.lastModifiedVisible && item.lastModified ? `
+                                    <div class="card-subtitle">
+                                        📅 ${new Date(item.lastModified).toLocaleDateString()}
+                                    </div>
+                                ` : ''}
+                                
+                                <div class="card-meta">
+                                    ${item.quantity && item.quantity > 1 ? `
+                                        <span>📦 ${item.quantity}x</span>
+                                    ` : ''}
+                                    
+                                    ${state.priceVisible && item.price ? `
+                                        <span>💰 $${parseFloat(item.price).toFixed(2)}</span>
+                                    ` : ''}
+                                </div>
+                                
+                                ${state.categoryTagsVisible && item.tags && item.tags.length ? `
+                                    <div class="tag-container">
+                                        ${item.tags.map(tag => `
+                                            <span class="tag ${tag.toLowerCase()}">${tag}</span>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+        
+        function renderSearchResults() {
+            const query = (state.view === 'search' ? state.globalSearchQuery : state.searchQuery).toLowerCase();
+            
+            if (!query) {
+                return renderSearchHistory();
+            }
+            
+            // Perform search
+            let results = [];
+            
+            function searchItems(items, path = []) {
+                items.forEach(item => {
+                    const itemType = getType(path.length);
+                    const currentPath = [...path, {
+                        id: item.id,
+                        name: item.name,
+                        type: itemType,
+                        lock: item.lock
+                    }];
+                    
+                    // Check if item matches filter criteria
+                    let matchesFilter = true;
+                    
+                    if (state.searchFilter === 'items') {
+                        matchesFilter = (itemType === 'item' || itemType === 'subitem');
+                    } else if (state.searchFilter === 'rooms') {
+                        matchesFilter = (itemType === 'house' || itemType === 'room' || itemType === 'furniture' || itemType === 'drawer');
+                    } else if (state.searchFilter === 'tags') {
+                        matchesFilter = item.tags && item.tags.some(tag => 
+                            tag.toLowerCase().includes(query)
+                        );
+                    }
+                    
+                    // Check if item name matches search query
+                    const nameMatch = item.name.toLowerCase().includes(query);
+                    const tagMatch = item.tags && item.tags.some(tag => 
+                        tag.toLowerCase().includes(query)
+                    );
+                    
+                    if ((nameMatch || tagMatch) && matchesFilter) {
+                        results.push({
+                            item: item,
+                            path: currentPath
+                        });
+                    }
+                    
+                    // Search nested items
+                    ['rooms', 'furniture', 'drawers', 'items', 'subItems'].forEach(key => {
+                        if (item[key] && item[key].length) {
+                            searchItems(item[key], currentPath);
+                        }
+                    });
+                });
+            }
+            
+            searchItems(state.houses);
+            
+            // Sort results alphabetically
+            results.sort((a, b) => a.item.name.localeCompare(b.item.name));
+            
+            if (results.length === 0) {
+                return `
+                    <div class="empty-state">
+                        <div class="empty-icon">🤷</div>
+                        <h2 class="empty-title">No Results Found</h2>
+                        <p class="empty-description">
+                            Try a different search term or check your spelling.
+                        </p>
+                        <button class="btn btn-primary" style="max-width:200px; margin-top:var(--space-4);" onclick="state.searchQuery=''; render()">
+                            <i class="fas fa-times"></i> Clear Search
+                        </button>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div style="padding:var(--space-3);">
+                    <h3 style="margin-bottom:var(--space-3); font-weight:600;">
+                        Found ${results.length} result${results.length !== 1 ? 's' : ''}
+                    </h3>
+                    
+                    ${results.map(result => {
+                        const item = result.item;
+                        const path = result.path;
+                        
+                        return `
+                            <div class="card" style="text-align:left; padding:var(--space-3); margin-bottom:var(--space-3); cursor:pointer;" 
+                                 onclick="jumpToPath('${JSON.stringify(path).replace(/"/g, '&quot;')}')">
+                                <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-1);">
+                                    <div style="font-size:1.2rem;">${getIcon(path.length - 1)}</div>
+                                    <div style="font-weight:600; font-size:1.05rem;">
+                                        ${item.name} ${item.lock ? '🔒' : ''}
+                                    </div>
+                                </div>
+                                
+                                <div style="font-size:0.85rem; color:var(--text-sub);">
+                                    ${path.map(p => p.name).join(' > ')}
+                                </div>
+                                
+                                <div style="display:flex; gap:var(--space-3); margin-top:var(--space-2); font-size:0.85rem;">
+                                    ${item.quantity && item.quantity > 1 ? `
+                                        <span>📦 ${item.quantity}x</span>
+                                    ` : ''}
+                                    
+                                    ${state.priceVisible && item.price ? `
+                                        <span>💰 $${parseFloat(item.price).toFixed(2)}</span>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+        
+        function renderSearchHistory() {
+            if (!state.searchHistory.length) {
+                return `
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <h2 class="empty-title">Search Your Inventory</h2>
+                        <p class="empty-description">
+                            Type in the search bar to find items, rooms, or houses in your inventory.
+                        </p>
+                    </div>
+                `;
+            }
+            
+            return `
+                <div style="padding:var(--space-3);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-4);">
+                        <h3 style="font-weight:600;">Recent Searches</h3>
+                        <button class="btn-icon" onclick="clearSearchHistory()" title="Clear history">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    
+                    ${state.searchHistory.map(q => `
+                        <div class="card" style="padding:var(--space-3); margin-bottom:var(--space-2); text-align:left; cursor:pointer;" 
+                             onclick="document.getElementById('main-search').value='${q}'; handleGlobalSearch('${q}')">
+                            <div style="display:flex; align-items:center; gap:var(--space-2);">
+                                <i class="fas fa-history" style="color:var(--primary);"></i>
+                                <div style="font-weight:500;">${q}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        function renderStats() {
+            let totalItems = 0;
+            let totalValue = 0;
+            let lockedCount = 0;
+            let housesCount = 0;
+            let roomsCount = 0;
+            
+            function countItems(items) {
+                items.forEach(item => {
+                    if (item.lock) lockedCount++;
+                    
+                    if (item.rooms && item.rooms.length) {
+                        housesCount++;
+                        countItems(item.rooms);
+                    } else if (item.furniture && item.furniture.length) {
+                        roomsCount++;
+                        countItems(item.furniture);
+                    } else if (item.drawers && item.drawers.length) {
+                        countItems(item.drawers);
+                    } else if (item.items && item.items.length) {
+                        countItems(item.items);
+                    } else if (item.subItems && item.subItems.length) {
+                        countItems(item.subItems);
+                    } else {
+                        // This is a leaf item
+                        totalItems++;
+                        if (item.price) {
+                            totalValue += (item.price * (item.quantity || 1));
+                        }
+                    }
+                });
+            }
+            
+            countItems(state.houses);
+            
+            return `
+                <div style="padding:var(--space-3);">
+                    <h2 style="margin-bottom:var(--space-6); text-align:center; font-weight:700;">📊 Inventory Statistics</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">🏠</div>
+                            <div class="stat-value">${housesCount}</div>
+                            <div class="stat-label">Houses</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">🚪</div>
+                            <div class="stat-value">${roomsCount}</div>
+                            <div class="stat-label">Rooms</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">📦</div>
+                            <div class="stat-value">${totalItems}</div>
+                            <div class="stat-label">Total Items</div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">🔒</div>
+                            <div class="stat-value">${lockedCount}</div>
+                            <div class="stat-label">Locked Areas</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" style="margin-bottom:var(--space-5);">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value">$${totalValue.toFixed(2)}</div>
+                        <div class="stat-label">Estimated Value</div>
+                    </div>
+                    
+                    <div class="sync-status">
+                        <div class="sync-indicator ${state.cloudSyncStatus === 'syncing' ? 'syncing' : state.cloudSyncStatus === 'error' ? 'error' : ''}"></div>
+                        <span>
+                            ${state.cloudSyncStatus === 'syncing' ? 'Syncing with cloud...' : 
+                              state.cloudSyncStatus === 'synced' ? `Last synced: ${state.lastSync ? new Date(state.lastSync).toLocaleString() : 'Never'}` : 
+                              state.cloudSyncStatus === 'error' ? 'Sync error' : 'Cloud sync disabled'}
+                        </span>
+                    </div>
+                    
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-3); margin-top: var(--space-4);">
+                        <button class="btn btn-secondary" onclick="exportData()">
+                            <i class="fas fa-download"></i> Export Data
+                        </button>
+                        <button class="btn btn-secondary" onclick="importDataPrompt()">
+                            <i class="fas fa-upload"></i> Import Data
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function renderSettings() {
+            return `
+                <div style="padding:var(--space-3);">
+                    <h2 style="margin-bottom:var(--space-6); text-align:center; font-weight:700;">⚙️ Settings</h2>
+                    
+                    <div class="settings-section">
+                        <h3 class="settings-title">
+                            <i class="fas fa-display"></i> Display Settings
+                        </h3>
+                        
+                        <div class="settings-item">
+                            <div class="settings-row">
+                                <span class="settings-label">Theme</span>
+                                <select onchange="changeTheme(this.value)" style="padding:8px; border-radius:8px; border:1px solid var(--border-normal);">
+                                    <option value="system" ${state.theme === 'system' ? 'selected' : ''}>System Default</option>
+                                    <option value="light" ${state.theme === 'light' ? 'selected' : ''}>Light Mode</option>
+                                    <option value="dark" ${state.theme === 'dark' ? 'selected' : ''}>Dark Mode</option>
+                                </select>
+                            </div>
+                            <p class="settings-description">Choose how the app looks on your device</p>
+                        </div>
+                        
+                        <div class="settings-item">
+                            <div class="settings-row">
+                                <span class="settings-label">Compact Mode</span>
+                                <label class="toggle">
+                                    <input type="checkbox" id="compact-mode-toggle" ${state.compactMode ? 'checked' : ''} onchange="toggleCompactMode(this.checked)">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <p class="settings-description">Show more items per screen with smaller cards</p>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3 class="settings-title">
+                            <i class="fas fa-sliders-h"></i> Content Settings
+                        </h3>
+                        
+                        <div class="settings-item">
+                            <div class="settings-row">
+                                <span class="settings-label">Show Last Modified</span>
+                                <label class="toggle">
+                                    <input type="checkbox" ${state.lastModifiedVisible ? 'checked' : ''} onchange="state.lastModifiedVisible=this.checked; saveData(); render()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <p class="settings-description">Display last modified dates on items</p>
+                        </div>
+                        
+                        <div class="settings-item">
+                            <div class="settings-row">
+                                <span class="settings-label">Show Category Tags</span>
+                                <label class="toggle">
+                                    <input type="checkbox" ${state.categoryTagsVisible ? 'checked' : ''} onchange="state.categoryTagsVisible=this.checked; saveData(); render()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <p class="settings-description">Show tags like "fragile", "valuable", etc. on items</p>
+                        </div>
+                        
+                        <div class="settings-item">
+                            <div class="settings-row">
+                                <span class="settings-label">Show Prices</span>
+                                <label class="toggle">
+                                    <input type="checkbox" ${state.priceVisible ? 'checked' : ''} onchange="state.priceVisible=this.checked; saveData(); render()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <p class="settings-description">Display prices on items</p>
+                        </div>
+                        
+                        <div class="settings-item">
+                            <div class="settings-row">
+                                <span class="settings-label">Haptic Feedback</span>
+                                <label class="toggle">
+                                    <input type="checkbox" ${state.hapticsEnabled ? 'checked' : ''} onchange="state.hapticsEnabled=this.checked; saveData()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <p class="settings-description">Vibration feedback for interactions (if supported)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3 class="settings-title">
+                            <i class="fas fa-sort"></i> Sorting
+                        </h3>
+                        
+                        <div class="settings-item">
+                            <div class="settings-row">
+                                <span class="settings-label">Sort Method</span>
+                            </div>
+                            <select onchange="state.autoSort=this.value; saveData(); render()" 
+                                    style="width:100%; padding:var(--space-2); margin:var(--space-1) 0; border-radius:var(--radius-md); border:1px solid var(--border-normal); background:var(--input-bg);">
+                                <option value="none" ${state.autoSort==='none'?'selected':''}>Manual (Drag & Drop)</option>
+                                <option value="alpha" ${state.autoSort==='alpha'?'selected':''}>Alphabetical</option>
+                                <option value="recentUsed" ${state.autoSort==='recentUsed'?'selected':''}>Most Recently Used</option>
+                                <option value="recentCreated" ${state.autoSort==='recentCreated'?'selected':''}>Most Recently Created</option>
+                            </select>
+                            <p class="settings-description">How items should be ordered in lists</p>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3 class="settings-title">
+                            <i class="fas fa-house"></i> House Appearance
+                        </h3>
+                        
+                        <div class="settings-item">
+                            <div class="settings-row">
+                                <span class="settings-label">House Color</span>
+                            </div>
+                            <input type="color" value="${state.customHouseColor}" 
+                                   onchange="changeHouseColor(this.value, 'main')" 
+                                   style="width:100%; height:40px; border-radius:var(--radius-md); border:1px solid var(--border-normal);">
+                            <p class="settings-description">Customize the color of your house icons</p>
+                        </div>
+                        
+                        <div class="settings-item">
+                            <div class="settings-row">
+                                <span class="settings-label">Roof Color</span>
+                            </div>
+                            <input type="color" value="${state.customHouseRoofColor}" 
+                                   onchange="changeHouseColor(this.value, 'roof')" 
+                                   style="width:100%; height:40px; border-radius:var(--radius-md); border:1px solid var(--border-normal);">
+                            <p class="settings-description">Customize the color of your house roof icons</p>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3 class="settings-title">
+                            <i class="fas fa-cloud"></i> Cloud Settings
+                        </h3>
+                        
+                        <div class="settings-item">
+                            <div class="settings-row">
+                                <span class="settings-label">Cloud Sync</span>
+                                <label class="toggle">
+                                    <input type="checkbox" id="cloud-sync-toggle" ${state.cloudSyncEnabled ? 'checked' : ''} onchange="toggleCloudSync(this.checked)">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="sync-status" style="margin-top: var(--space-1);">
+                                <div class="sync-indicator ${state.cloudSyncStatus === 'syncing' ? 'syncing' : state.cloudSyncStatus === 'error' ? 'error' : ''}"></div>
+                                <span>
+                                    ${state.cloudSyncStatus === 'syncing' ? 'Syncing...' : 
+                                      state.cloudSyncStatus === 'synced' ? `Last sync: ${state.lastSync ? new Date(state.lastSync).toLocaleTimeString() : 'Never'}` : 
+                                      state.cloudSyncStatus === 'error' ? 'Sync error' : 'Offline'}
+                                </span>
+                            </div>
+                            <p class="settings-description">Enable cloud backup and syncing across devices</p>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3 class="settings-title">
+                            <i class="fas fa-history"></i> Search History
+                        </h3>
+                        
+                        <div class="settings-item">
+                            <p style="margin-bottom:var(--space-2);">You have ${state.searchHistory.length} saved searches</p>
+                            <button class="btn btn-danger" onclick="clearSearchHistory()">
+                                <i class="fas fa-trash"></i> Clear Search History
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top:var(--space-5);">
+                        <button class="btn btn-danger" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Event Handlers
+        function handleQuickAddKeypress(event) {
+            if (event.key === 'Enter') {
+                quickAdd();
+            }
+        }
+        
+        function togglePasswordPeek() {
+            const passwordInput = document.getElementById('p');
+            const button = document.querySelector('.toggle-password i');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                button.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                button.className = 'fas fa-eye';
+            }
+        }
+        
+        function goBack() {
+            if (state.path.length > 0) {
+                state.path.pop();
+                render();
+            }
+        }
+        
+        function setView(view) {
+            state.view = view;
+            state.searchQuery = '';
+            state.globalSearchQuery = '';
+            render();
+        }
+        
+        function toggleSubItemsView() {
+            const last = state.path[state.path.length - 1];
+            if (last.type === 'item') {
+                // Push into sub-items
+                state.path.push({...last, type: 'subitem'});
+            } else if (last.type === 'subitem') {
+                // Pop back to item
+                state.path.pop();
+            }
+            render();
+        }
+        
+        function handleGlobalSearch(value) {
+            if (state.view === 'search') {
+                state.globalSearchQuery = value;
+            } else {
+                state.searchQuery = value;
+            }
+            
+            // Re-render search results
+            const content = document.getElementById('main-content');
+            if (content) {
+                content.innerHTML = renderSearchResults();
+            }
+        }
+        
+        function setSearchFilter(filter) {
+            state.searchFilter = filter;
+            render();
+        }
+        
+        // Add Item Functions
+        function openAdd() {
+            const level = state.path.length;
+            const levelNames = ['house', 'room', 'furniture', 'drawer', 'item', 'sub-item'];
+            const noun = levelNames[level].charAt(0).toUpperCase() + levelNames[level].slice(1);
+            const canLock = level < 2; // Only houses and rooms can be locked
+            
+            const html = `
+                <div class="modal-overlay" onclick="if(event.target.className==='modal-overlay') this.remove()">
+                    <div class="modal animate-in">
+                        <div class="modal-header">
+                            <h2 class="modal-title"><i class="fas fa-plus"></i> Add ${noun}</h2>
+                            <button class="modal-close" onclick="document.querySelector('.modal-overlay').remove()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Name</label>
+                            <input type="text" id="nn" class="input-field" placeholder="Enter name" autofocus>
+                        </div>
+                        
+                        ${canLock ? `
+                            <div class="input-group" style="position:relative;">
+                                <label class="input-label">Lock Password (optional)</label>
+                                <input type="password" id="nl" class="input-field" placeholder="Leave blank for no lock">
+                                <button class="toggle-password" type="button" onclick="toggleModalPasswordVisibility('nl')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        ` : ''}
+                        
+                        ${(level === 4 || level === 5) ? `
+                            <div class="input-group">
+                                <label class="input-label">Quantity (optional)</label>
+                                <input type="number" id="qty" class="input-field" placeholder="1" min="1" value="1">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label class="input-label">Price (optional)</label>
+                                <input type="number" id="price" class="input-field" placeholder="0.00" step="0.01">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label class="input-label">Tags (optional)</label>
+                                <input type="text" id="tags" class="input-field" placeholder="fragile, valuable, tools, electronics">
+                                <p style="font-size:0.8rem; color:var(--text-sub); margin-top:var(--space-1);">
+                                    Separate tags with commas
+                                </p>
+                            </div>
+                        ` : ''}
+                        
+                        ${level <= 4 ? `
+                            <div class="file-input-container" onclick="document.getElementById('file-input').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p style="margin-top:var(--space-1);">📷 Add photo (optional)</p>
+                                <input type="file" id="file-input" class="file-input" accept="image/*" onchange="handleFileSelect(event)">
+                            </div>
+                        ` : ''}
+                        
+                        <button class="btn btn-primary" onclick="confirmAdd()">
+                            <i class="fas fa-check"></i> Create ${noun}
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', html);
+        }
+        
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            if (!file.type.match('image.*')) {
+                showToast("❌ Please select an image file", "error");
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Show preview in the container
+                const container = event.target.closest('.modal').querySelector('.file-input-container');
+                container.innerHTML = `
+                    <img src="${e.target.result}" style="max-width:100%; max-height:100px; border-radius:var(--radius-md);">
+                    <p style="margin-top:var(--space-1);">✅ Photo selected</p>
+                `;
+                state.tempPhoto = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function toggleModalPasswordVisibility(inputId) {
+            const input = document.getElementById(inputId);
+            const button = input.nextElementSibling.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                button.className = 'fas fa-eye';
+            }
+        }
+        
+        function confirmAdd() {
+            const nameInput = document.getElementById('nn');
+            const lockInput = document.getElementById('nl');
+            const qtyInput = document.getElementById('qty');
+            const priceInput = document.getElementById('price');
+            const tagsInput = document.getElementById('tags');
+            
+            const name = nameInput.value.trim();
+            if (!name) {
+                showToast("❌ Name is required", "error");
+                nameInput.focus();
+                return;
+            }
+            
+            // Check for duplicate names at current level
+            const currentList = getList();
+            if (currentList.some(item => item.name.toLowerCase() === name.toLowerCase())) {
+                showToast("❌ An item with this name already exists!", "error");
+                nameInput.focus();
+                return;
+            }
+            
+            const lock = lockInput ? lockInput.value : '';
+            const quantity = qtyInput ? parseInt(qtyInput.value) || 1 : undefined;
+            const price = priceInput ? parseFloat(priceInput.value) || undefined : undefined;
+            const tags = tagsInput && tagsInput.value ? 
+                tagsInput.value.split(',').map(t => t.trim()).filter(t => t) : undefined;
+            
+            const newItem = {
+                id: Date.now().toString(),
+                name: name,
+                lock: lock || undefined,
+                rooms: [],
+                furniture: [],
+                drawers: [],
+                items: [],
+                subItems: [],
+                image: state.tempPhoto,
+                createdAt: Date.now(),
+                lastModified: Date.now()
+            };
+            
+            if (quantity !== undefined) newItem.quantity = quantity;
+            if (price !== undefined) newItem.price = price;
+            if (tags) newItem.tags = tags;
+            
+            currentList.push(newItem);
+            state.tempPhoto = null;
+            saveData();
+            
+            document.querySelector('.modal-overlay').remove();
+            render();
+            showToast(`✅ ${name} added successfully!`, "success");
+        }
+        
+        function openEdit(id) {
+            const item = getList().find(x => x.id === id);
+            if (!item) return;
+            
+            const level = state.path.length;
+            const levelNames = ['house', 'room', 'furniture', 'drawer', 'item', 'sub-item'];
+            const noun = levelNames[level].charAt(0).toUpperCase() + levelNames[level].slice(1);
+            const canLock = level < 2;
+            
+            const html = `
+                <div class="modal-overlay" onclick="if(event.target.className==='modal-overlay') this.remove()">
+                    <div class="modal animate-in">
+                        <div class="modal-header">
+                            <h2 class="modal-title"><i class="fas fa-edit"></i> Edit ${noun}</h2>
+                            <button class="modal-close" onclick="document.querySelector('.modal-overlay').remove()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="input-label">Name</label>
+                            <input type="text" id="nn" class="input-field" value="${item.name}" autofocus>
+                        </div>
+                        
+                        ${canLock ? `
+                            <div class="input-group" style="position:relative;">
+                                <label class="input-label">Lock Password</label>
+                                <input type="password" id="nl" class="input-field" placeholder="Leave blank to remove lock" value="${item.lock || ''}">
+                                <button class="toggle-password" type="button" onclick="toggleModalPasswordVisibility('nl')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        ` : ''}
+                        
+                        ${(level === 4 || level === 5) ? `
+                            <div class="input-group">
+                                <label class="input-label">Quantity</label>
+                                <input type="number" id="qty" class="input-field" min="1" value="${item.quantity || 1}">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label class="input-label">Price</label>
+                                <input type="number" id="price" class="input-field" step="0.01" value="${item.price || ''}">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label class="input-label">Tags</label>
+                                <input type="text" id="tags" class="input-field" value="${item.tags ? item.tags.join(', ') : ''}">
+                            </div>
+                        ` : ''}
+                        
+                        <div class="btn-group">
+                            <button class="btn btn-secondary" onclick="duplicateItem('${id}')">
+                                <i class="fas fa-copy"></i> Duplicate
+                            </button>
+                            <button class="btn btn-secondary" onclick="generateQRForItem('${id}')">
+                                <i class="fas fa-qrcode"></i> QR Code
+                            </button>
+                        </div>
+                        
+                        <button class="btn btn-primary" onclick="confirmEdit('${id}')">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        
+                        <button class="btn btn-danger" style="margin-top:var(--space-3);" onclick="deleteItem('${id}')">
+                            <i class="fas fa-trash"></i> Delete ${noun}
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', html);
+        }
+        
+        function confirmEdit(id) {
+            const item = getList().find(x => x.id === id);
+            if (!item) return;
+            
+            const nameInput = document.getElementById('nn');
+            const lockInput = document.getElementById('nl');
+            const qtyInput = document.getElementById('qty');
+            const priceInput = document.getElementById('price');
+            const tagsInput = document.getElementById('tags');
+            
+            const newName = nameInput.value.trim();
+            if (!newName) {
+                showToast("❌ Name is required", "error");
+                nameInput.focus();
+                return;
+            }
+            
+            // Check for duplicate names (excluding current item)
+            const currentList = getList();
+            const otherItems = currentList.filter(x => x.id !== id);
+            if (otherItems.some(i => i.name.toLowerCase() === newName.toLowerCase())) {
+                showToast("❌ An item with this name already exists!", "error");
+                nameInput.focus();
+                return;
+            }
+            
+            const newLock = lockInput ? lockInput.value : '';
+            const newQty = qtyInput ? parseInt(qtyInput.value) || 1 : undefined;
+            const newPrice = priceInput ? parseFloat(priceInput.value) || undefined : undefined;
+            const newTags = tagsInput && tagsInput.value ? 
+                tagsInput.value.split(',').map(t => t.trim()).filter(t => t) : undefined;
+            
+            item.name = newName;
+            item.lock = newLock || undefined;
+            
+            if (newQty !== undefined) item.quantity = newQty;
+            else delete item.quantity;
+            
+            if (newPrice !== undefined) item.price = newPrice;
+            else delete item.price;
+            
+            if (newTags) item.tags = newTags;
+            else delete item.tags;
+            
+            item.lastModified = Date.now();
+            saveData();
+            
+            document.querySelector('.modal-overlay').remove();
+            render();
+            showToast("✅ Changes saved successfully!", "success");
+        }
+        
+        function duplicateItem(id) {
+            const list = getList();
+            const original = list.find(x => x.id === id);
+            if (!original) return;
+            
+            const clone = JSON.parse(JSON.stringify(original));
+            clone.id = Date.now().toString();
+            clone.name = `${original.name} (Copy)`;
+            clone.createdAt = Date.now();
+            clone.lastModified = Date.now();
+            
+            list.push(clone);
+            saveData();
+            
+            document.querySelector('.modal-overlay').remove();
+            render();
+            showToast("✅ Item duplicated successfully!", "success");
+        }
+        
+        function deleteItem(id) {
+            if (!confirm("⚠️ Are you sure you want to delete this item? This cannot be undone.")) return;
+            
+            const list = getList();
+            const index = list.findIndex(x => x.id === id);
+            if (index === -1) return;
+            
+            list.splice(index, 1);
+            saveData();
+            
+            document.querySelector('.modal-overlay').remove();
+            render();
+            showToast("✅ Item deleted successfully!", "success");
+        }
+        
+        function quickAdd() {
+            const input = document.getElementById('quick-input');
+            const name = input.value.trim();
+            
+            if (!name) {
+                showToast("❌ Please enter an item name", "error");
+                return;
+            }
+            
+            const items = getList();
+            const level = state.path.length;
+            
+            // Check for duplicate names
+            if (items.some(item => item.name.toLowerCase() === name.toLowerCase())) {
+                showToast("❌ An item with this name already exists!", "error");
+                return;
+            }
+            
+            const newItem = {
+                id: Date.now().toString(),
+                name: name,
+                rooms: [],
+                furniture: [],
+                drawers: [],
+                items: [],
+                subItems: [],
+                createdAt: Date.now(),
+                lastModified: Date.now()
+            };
+            
+            // For items and sub-items, add default quantity
+            if (level === 4 || level === 5) {
+                newItem.quantity = 1;
+            }
+            
+            items.push(newItem);
+            saveData();
+            
+            input.value = '';
+            render();
+            showToast("✅ Item added successfully!", "success");
+        }
+        
+        // Data Management
+        function exportData() {
+            const data = {
+                houses: state.houses,
+                settings: {
+                    darkMode: state.darkMode,
+                    compactMode: state.compactMode,
+                    lastModifiedVisible: state.lastModifiedVisible,
+                    categoryTagsVisible: state.categoryTagsVisible,
+                    priceVisible: state.priceVisible,
+                    hapticsEnabled: state.hapticsEnabled,
+                    autoSort: state.autoSort,
+                    customHouseColor: state.customHouseColor,
+                    customHouseRoofColor: state.customHouseRoofColor,
+                    cloudSyncEnabled: state.cloudSyncEnabled,
+                    cloudSyncStatus: state.cloudSyncStatus,
+                    lastSync: state.lastSync
+                },
+                version: state.version,
+                exportedAt: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `home-tracker-backup-${new Date().toISOString().slice(0,10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            
+            setTimeout(() => {
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }, 0);
+            
+            showToast("✅ Data exported successfully!", "success");
+        }
+        
+        function importDataPrompt() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.style.display = 'none';
+            
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    try {
+                        const data = JSON.parse(ev.target.result);
+                        
+                        if (!data.houses) {
+                            throw new Error("Invalid backup file - missing houses data");
+                        }
+                        
+                        if (!confirm("⚠️ Importing will replace your current data. Are you sure?")) {
+                            return;
+                        }
+                        
+                        state.houses = data.houses;
+                        
+                        if (data.settings) {
+                            state.darkMode = data.settings.darkMode ?? state.darkMode;
+                            state.compactMode = data.settings.compactMode ?? state.compactMode;
+                            state.lastModifiedVisible = data.settings.lastModifiedVisible ?? state.lastModifiedVisible;
+                            state.categoryTagsVisible = data.settings.categoryTagsVisible ?? state.categoryTagsVisible;
+                            state.priceVisible = data.settings.priceVisible ?? state.priceVisible;
+                            state.hapticsEnabled = data.settings.hapticsEnabled ?? state.hapticsEnabled;
+                            state.autoSort = data.settings.autoSort ?? state.autoSort;
+                            state.customHouseColor = data.settings.customHouseColor ?? state.customHouseColor;
+                            state.customHouseRoofColor = data.settings.customHouseRoofColor ?? state.customHouseRoofColor;
+                            state.cloudSyncEnabled = data.settings.cloudSyncEnabled ?? state.cloudSyncEnabled;
+                            state.cloudSyncStatus = data.settings.cloudSyncStatus ?? state.cloudSyncStatus;
+                            state.lastSync = data.settings.lastSync ?? state.lastSync;
+                            
+                            // Apply colors
+                            document.documentElement.style.setProperty('--house-color', state.customHouseColor);
+                            document.documentElement.style.setProperty('--house-roof', state.customHouseRoofColor);
+                        }
+                        
+                        saveData();
+                        render();
+                        showToast("✅ Data imported successfully!", "success");
+                    } catch (err) {
+                        console.error("Import error:", err);
+                        showToast(`❌ Import failed: ${err.message}`, "error");
+                    }
+                };
+                
+                reader.readAsText(file);
+                document.body.removeChild(input);
+            };
+            
+            document.body.appendChild(input);
+            input.click();
+        }
+        
+        function clearSearchHistory() {
+            if (!confirm("🧹 Clear all search history? This cannot be undone.")) return;
+            
+            state.searchHistory = [];
+            saveData();
+            render();
+            showToast("✅ Search history cleared", "success");
+        }
+        
+        // Authentication
+        function auth() {
+            const username = document.getElementById('u').value.toLowerCase().trim();
+            const password = document.getElementById('p').value;
+            const stayLoggedIn = document.getElementById('stay-login')?.checked || false;
+            
+            if (!username || !password) {
+                showToast("❌ Please enter username and password", "error");
+                return;
+            }
+            
+            const registry = getRegistry();
+            
+            if (state.authMode === 'register') {
+                // Check for duplicate username
+                if (registry[username]) {
+                    showToast("❌ Username already taken!", "error");
+                    return;
+                }
+                
+                registry[username] = password;
+                saveRegistry(registry);
+                
+                showToast("✅ Account created successfully! Please login.", "success");
+                state.authMode = 'login';
+                render();
+            } else {
+                // Login mode
+                if (registry[username] !== password) {
+                    showToast("❌ Invalid username or password", "error");
+                    return;
+                }
+                
+                state.user = username;
+                state.stayLoggedIn = stayLoggedIn;
+                loadData();
+                render();
+                
+                showToast(`👋 Welcome back, ${username}!`, "success");
+            }
+        }
+        
+        function logout() {
+            if (!confirm("🚪 Are you sure you want to logout?")) return;
+            
+            state.user = null;
+            localStorage.removeItem('ht_active_user_v3');
+            localStorage.removeItem('ht_login_expiry_v3');
+            render();
+            showToast("✅ You have been logged out", "success");
+        }
+        
+        // Settings Functions
+        function toggleCompactMode(enabled) {
+            state.compactMode = enabled;
+            document.body.classList.toggle('compact-mode', enabled);
+            saveData();
+        }
+        
+        function changeTheme(theme) {
+            state.theme = theme;
+            
+            if (theme === 'system') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.body.classList.toggle('dark-mode', prefersDark);
+                state.darkMode = prefersDark;
+            } else {
+                document.body.classList.toggle('dark-mode', theme === 'dark');
+                state.darkMode = theme === 'dark';
+            }
+            
+            saveData();
+        }
+        
+        function changeHouseColor(color, type) {
+            if (type === 'main') {
+                state.customHouseColor = color;
+                document.documentElement.style.setProperty('--house-color', color);
+            } else {
+                state.customHouseRoofColor = color;
+                document.documentElement.style.setProperty('--house-roof', color);
+            }
+            saveData();
+        }
+        
+        function toggleCloudSync(enabled) {
+            state.cloudSyncEnabled = enabled;
+            saveData();
+            
+            if (enabled) {
+                setupCloudSync();
+                showToast("✅ Cloud sync enabled", "success");
+            } else {
+                showToast("ℹ️ Cloud sync disabled", "info");
+            }
+            
+            render();
+        }
+        
+        function setupCloudSync() {
+            // This would set up periodic cloud sync in a production app
+            console.log("Cloud sync setup");
+        }
+        
+        // Voice Search
+        function startVoiceSearch() {
+            const voiceBtn = document.getElementById('voice-btn');
+            voiceBtn.classList.add('listening');
+            voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+            
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                showToast("❌ Voice search not supported in this browser", "error");
+                voiceBtn.classList.remove('listening');
+                return;
+            }
+            
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.interimResults = true;
+            
+            recognition.start();
+            
+            recognition.onresult = (event) => {
+                const transcript = Array.from(event.results)
+                    .map(result => result[0])
+                    .map(result => result.transcript)
+                    .join('');
+                
+                document.getElementById('main-search').value = transcript;
+                handleGlobalSearch(transcript);
+            };
+            
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error', event.error);
+                showToast(`❌ Voice recognition error: ${event.error}`, "error");
+            };
+            
+            recognition.onend = () => {
+                voiceBtn.classList.remove('listening');
+                voiceBtn.innerHTML = '<i class="fas fa-microphone"></i>';
+            };
+        }
+        
+        // Jump to Path
+        function jumpToPath(pathStr) {
+            const path = JSON.parse(pathStr);
+            
+            // Check for locks along the path
+            for (const step of path) {
+                if (step.lock) {
+                    const item = findItemById(state.houses, step.id);
+                    if (item) {
+                        showPasswordModal(item, () => {
+                            // After successful unlock, navigate to the path
+                            state.path = path.slice(0, -1);
+                            state.view = 'home';
+                            state.searchQuery = '';
+                            state.globalSearchQuery = '';
+                            render();
+                            
+                            // If the last item is an item or subitem, open its edit modal
+                            const last = path[path.length - 1];
+                            if (last.type === 'item' || last.type === 'subitem') {
+                                setTimeout(() => openEdit(last.id), 100);
+                            }
+                        });
+                        return;
+                    }
+                }
+            }
+            
+            // No locks, navigate directly
+            state.path = path.slice(0, -1);
+            state.view = 'home';
+            state.searchQuery = '';
+            state.globalSearchQuery = '';
+            render();
+            
+            // If the last item is an item or subitem, open its edit modal
+            const last = path[path.length - 1];
+            if (last.type === 'item' || last.type === 'subitem') {
+                setTimeout(() => openEdit(last.id), 100);
+            }
+        }
+        
+        // Initialize App
+        function initApp() {
+            // Check for auto-login
+            const activeUser = localStorage.getItem('ht_active_user_v3');
+            const expiry = localStorage.getItem('ht_login_expiry_v3');
+            
+            if (activeUser && expiry && Date.now() < parseInt(expiry)) {
+                state.user = activeUser;
+                loadData();
+            }
+            
+            // Apply theme from system settings
+            if (state.theme === 'system') {
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.body.classList.toggle('dark-mode', prefersDark);
+                state.darkMode = prefersDark;
+            } else {
+                document.body.classList.toggle('dark-mode', state.theme === 'dark');
+            }
+            
+            render();
+        }
+        
+        // Handle window visibility change for security
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'hidden') {
+                // Clear sensitive data from DOM when app is hidden
+                const passwordFields = document.querySelectorAll('input[type="password"]');
+                passwordFields.forEach(field => {
+                    field.value = '';
+                });
+            }
+        });
+        
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+        
+        // For Google Sites compatibility
+        if (window.self !== window.top) {
+            document.querySelector('.nav-bar').style.position = 'relative';
+            document.querySelector('.nav-bar').style.bottom = 'auto';
+            document.querySelector('.fab').style.bottom = '80px';
+            document.querySelector('.quick-add').style.bottom = '140px';
+            document.body.style.paddingBottom = '120px';
+        }
+    </script>
+</body>
+</html>
